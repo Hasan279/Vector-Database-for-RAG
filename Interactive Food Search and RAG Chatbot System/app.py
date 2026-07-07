@@ -334,7 +334,7 @@ details {
 # ── Query rewriter (reuses genai already configured in enhanced_rag_chatbot) ─
 def rewrite_query(prompt: str, messages: list) -> str:
     """Use the LLM to rewrite the user's message into an optimal vector-DB query."""
-    model = genai.GenerativeModel('gemini-2.5-flash')
+    client = genai.Client() # Uses GEMINI_API_KEY from environment
 
     history = []
     for msg in messages[-6:]:
@@ -355,7 +355,10 @@ Rules:
 - Output ONLY the rewritten query, nothing else."""
 
     try:
-        resp = model.generate_content(rewrite_prompt)
+        resp = client.models.generate_content(
+            model='gemini-2.5-flash',
+            contents=rewrite_prompt
+        )
         if resp and resp.text:
             return resp.text.strip()
     except Exception:
