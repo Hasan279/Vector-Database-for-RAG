@@ -366,7 +366,8 @@ Rules:
 # ── Database initialisation (cached) ────────────────────────────────
 @st.cache_resource(show_spinner=False)
 def setup_database():
-    food_items = load_food_data('./FoodDataset.json')
+    _here = os.path.dirname(os.path.abspath(__file__))
+    food_items = load_food_data(os.path.join(_here, 'FoodDataset.json'))
     collection = create_similarity_search_collection(
         "craveai_collection",
         {"description": "CraveAI Streamlit RAG chatbot collection"},

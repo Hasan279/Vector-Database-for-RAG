@@ -4,16 +4,14 @@ from shared_functions import *
 from typing import List, Dict, Any
 import json
 import os
-import google.generativeai as genai
+from google import genai
 from dotenv import load_dotenv
 
 load_dotenv()
 
 # Configure Gemini
 api_key = os.getenv("GEMINI_API_KEY")
-if api_key:
-    genai.configure(api_key=api_key)
-model = genai.GenerativeModel('gemini-2.5-flash')
+client = genai.Client(api_key=api_key) if api_key else None
 
 food_items = []
 
@@ -40,9 +38,11 @@ def main():
         #testing llm connection
         print("🔗 Testing LLM connection...")
         try:
-            test_response = model.generate_content("Hello")
+            test_response = client.models.generate_content(
+                model='gemini-2.5-flash', contents='Hello'
+            )
             if test_response.text:
-                print("✅ LLM connection successful!")
+                print("LLM connection successful!")
         except Exception as e:
             print(f"❌ LLM connection failed: {e}")
             return
@@ -161,7 +161,9 @@ def generate_llm_rag_response(query: str, search_results: List[Dict]) -> str:
 
         Response:'''
 
-        generated_response = model.generate_content(prompt)
+        generated_response = client.models.generate_content(
+            model='gemini-2.5-flash', contents=prompt
+        )
         if generated_response and generated_response.text:
             response_text = generated_response.text.strip()
             
@@ -294,7 +296,9 @@ Please provide a short comparison that:
 
 Comparison:'''
 
-        generated_response = model.generate_content(comparison_prompt)
+        generated_response = client.models.generate_content(
+            model='gemini-2.5-flash', contents=comparison_prompt
+        )
         
         if generated_response and generated_response.text:
             return generated_response.text.strip()
