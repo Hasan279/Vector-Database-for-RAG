@@ -2,6 +2,7 @@ import streamlit as st
 import os
 import sys
 from dotenv import load_dotenv
+from google import genai
 
 # Load secrets: .env locally, st.secrets on Streamlit Cloud
 load_dotenv()
