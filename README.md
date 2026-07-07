@@ -1,5 +1,8 @@
 # CraveAI — Intelligent Food Search & RAG Chatbot
 
+🚀 **[Live Demo: craveai.streamlit.app](https://craveai.streamlit.app/)**
+
+
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white"/>
   <img src="https://img.shields.io/badge/Streamlit-1.x-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white"/>
