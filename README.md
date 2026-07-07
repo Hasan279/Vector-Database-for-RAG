@@ -7,7 +7,7 @@
   <img src="https://img.shields.io/badge/Gemini%202.5%20Flash-AI%20Engine-4285F4?style=for-the-badge&logo=google&logoColor=white"/>
 </p>
 
-> A production-ready RAG (Retrieval-Augmented Generation) chatbot that gives intelligent, context-aware food recommendations from a curated database of **300+ dishes** across 30+ world cuisines — powered by Google Gemini and ChromaDB.
+> A production-ready RAG (Retrieval-Augmented Generation) chatbot that gives intelligent, context-aware food recommendations from a curated database of **300+ dishes** across 30+ world cuisines — powered by **Google Gemini 2.5 Flash** (AI backbone) and ChromaDB (vector store).
 
 ---
 
