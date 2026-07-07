@@ -3,7 +3,11 @@ import os
 import sys
 from dotenv import load_dotenv
 
+# Load secrets: .env locally, st.secrets on Streamlit Cloud
 load_dotenv()
+if not os.getenv("GEMINI_API_KEY") and hasattr(st, "secrets") and "GEMINI_API_KEY" in st.secrets:
+    os.environ["GEMINI_API_KEY"] = st.secrets["GEMINI_API_KEY"]
+
 
 # Fix Windows console encoding for emoji printing
 if sys.stdout and hasattr(sys.stdout, 'reconfigure'):
