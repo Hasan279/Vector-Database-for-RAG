@@ -27,7 +27,6 @@ from enhanced_rag_chatbot import (
     prepare_context_for_llm,
     generate_fallback_response,
 )
-import google.generativeai as genai
 
 # ── Page config ──────────────────────────────────────────────────────
 st.set_page_config(
