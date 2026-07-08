@@ -1,181 +1,127 @@
-# CraveAI — Intelligent Food Search & RAG Chatbot
+# Vector Database for RAG (Retrieval-Augmented Generation)
 
-🚀 **[Live Demo: craveai.streamlit.app](https://craveai.streamlit.app/)**
-
-
-<p align="center">
-  <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Streamlit-1.x-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white"/>
-  <img src="https://img.shields.io/badge/ChromaDB-Vector%20DB-4A90D9?style=for-the-badge"/>
-  <img src="https://img.shields.io/badge/Gemini%202.5%20Flash-AI%20Engine-4285F4?style=for-the-badge&logo=google&logoColor=white"/>
-</p>
-
-> A production-ready RAG (Retrieval-Augmented Generation) chatbot that gives intelligent, context-aware food recommendations from a curated database of **300+ dishes** across 30+ world cuisines — powered by **Google Gemini 2.5 Flash** (AI backbone) and ChromaDB (vector store).
+This repository contains educational materials, cheat sheets, and hands-on Jupyter notebooks focused on **Vector Databases**, **Similarity Search**, and their applications in **Retrieval-Augmented Generation (RAG)** systems. These materials are part of the Coursera course on Vector Databases for RAG.
 
 ---
 
-## Features
+## 📂 Repository Structure
 
-- **Conversational RAG Chatbot** — Ask naturally ("spicy dinner under 400 calories") and get curated recommendations grounded in real food data
-- **Semantic Vector Search** — ChromaDB embeddings find dishes based on meaning, not just keywords
-- **Smart Query Rewriting** — Gemini rewrites vague queries into optimised vector search prompts
-- **Side-by-Side Comparison Mode** — Compare two different cravings and get a ranked breakdown
-- **300+ Curated Foods** — A rich dataset spanning Italian, Japanese, Indian, Mexican, Ethiopian, Korean, Thai, Peruvian, and many more cuisines
-- **Gemini-Inspired UI** — Clean dark interface with animated gradient accents, built on Streamlit
+The repository is organized into a single folder containing all course-related materials:
 
----
+### 📔 Jupyter Notebooks (`Course_content/`)
+* **[Similarity Search by Hand.ipynb](file:///c:/Users/dell/OneDrive/Documents/Coursera%20Courses/Vector-Database-for-RAG/Course_content/Similarity%20Search%20by%20Hand.ipynb)**
+  * **Objective:** Learn the mathematical fundamentals behind vector similarity.
+  * **Details:** Manually compute distance and similarity metrics (Euclidean/L2 Distance, Dot Product, Cosine Similarity/Distance) using `numpy`, `scipy`, and `PyTorch` to understand how embeddings are compared in high-dimensional spaces.
+* **[similarity_search_with_chromadb.ipynb](file:///c:/Users/dell/OneDrive/Documents/Coursera%20Courses/Vector-Database-for-RAG/Course_content/similarity_search_with_chromadb.ipynb)**
+  * **Objective:** Implement a basic vector database setup.
+  * **Details:** Store grocery-related item texts, generate embeddings with Sentence Transformers (`all-MiniLM-L6-v2`), configure a collection using the Cosine distance space, and run nearest-neighbor similarity search queries.
+* **[similarity_employeedata.ipynb](file:///c:/Users/dell/OneDrive/Documents/Coursera%20Courses/Vector-Database-for-RAG/Course_content/similarity_employeedata.ipynb)**
+  * **Objective:** Build a practical semantic retrieval application.
+  * **Details:** Insert comprehensive employee profiles (metadata & text) into ChromaDB, perform similarity search, and apply advanced metadata filters (using `$eq`, `$lt`, `$and`, `$or` logical operators) and full-text document filtering.
 
-## Architecture
-
-```
-User Query
-    │
-    ▼
-Query Rewriter (Gemini 2.5 Flash)
-    │
-    ▼
-ChromaDB Vector Search  ◄──── FoodDataset.json (300+ items)
-    │
-    ▼
-Context Builder (top-k results)
-    │
-    ▼
-Gemini 2.5 Flash (RAG generation)
-    │
-    ▼
-Streamed Response → Streamlit UI
-```
-
-### Key Modules
-
-| File | Purpose |
-|---|---|
-| `app.py` | Streamlit front-end & main application entry point |
-| `enhanced_rag_chatbot.py` | Core RAG pipeline — embedding, retrieval, and generation |
-| `shared_functions.py` | Shared ChromaDB utilities: collection management, similarity search |
-| `advanced_search.py` | Advanced filtering: calorie range, cuisine type, dietary flags |
-| `interactive_search.py` | Interactive CLI-based search (legacy exploration module) |
-| `system_comparison.py` | Benchmarking: RAG vs. keyword search comparison |
-| `FoodDataset.json` | 300+ food items with nutritional info, ingredients, and metadata |
+### 📝 Concept & Syntax Cheat Sheets (`Course_content/`)
+* **[VectorDb_Chromadb_cheatsheet.md](file:///c:/Users/dell/OneDrive/Documents/Coursera%20Courses/Vector-Database-for-RAG/Course_content/VectorDb_Chromadb_cheatsheet.md)**
+  * In-depth reference for distance metrics (L2, Cosine, Inner Product).
+  * Explains vector indexing, specifically the **HNSW (Hierarchical Navigable Small World)** algorithm, and key configuration parameters.
+  * Full syntax reference for ChromaDB operations including collection creation, CRUD operations, metadata filtering operators, and document content filtering.
+* **[VectorDb_for_rag_cheatsheet.md](file:///c:/Users/dell/OneDrive/Documents/Coursera%20Courses/Vector-Database-for-RAG/Course_content/VectorDb_for_rag_cheatsheet.md)**
+  * Explains Retrieval-Augmented Generation (RAG) framework, pipeline steps, and key pitfalls to avoid (e.g., mismatched embedding models, poor chunking).
+  * Provides quick-start Python recipes for creating collections, adding, retrieving, updating, and deleting documents in ChromaDB.
 
 ---
 
-## Getting Started
+## 🧠 Key Concepts & Learning Outcomes
+
+### 1. Similarity & Distance Metrics
+Understanding when to use each metric depending on your data distribution:
+* **L2 Distance (Euclidean):** Measures straight-line distance. Highly sensitive to both vector magnitude and direction. Best for spatial or clustering tasks.
+* **Dot Product (Inner Product):** Sensitive to direction and magnitude. Best when the length of the vector carries significance (e.g., popularity or confidence in recommendation systems).
+* **Cosine Similarity/Distance:** Focuses entirely on vector orientation/angle rather than length. Ideal for high-dimensional, sparse text embeddings (NLP).
+
+### 2. Hierarchical Navigable Small World (HNSW) Indexing
+ChromaDB's primary approximate nearest neighbor (ANN) search graph structure:
+* **`space`**: Distance metric used (default is `l2`, options: `cosine`, `ip`).
+* **`ef_search` / `ef_construction`**: Parameters that trade off indexing speed/build time against query accuracy.
+* **`max_neighbors` (M)**: Connective structure density controlling memory consumption and recall rate.
+
+### 3. RAG Pipeline Framework
+* **Document Chunking & Embedding:** Preparing text snippets and converting them into dense vectors.
+* **Storage & Indexing:** Saving vectors along with metadata to enable filtering and fast retrieval.
+* **Prompt Augmentation:** Feeding the retrieved context to an LLM to generate precise responses and prevent hallucinations.
+
+---
+
+## 🚀 Getting Started
 
 ### Prerequisites
+To run the notebooks and Python scripts, ensure you have the following installed:
+* Python 3.8+
+* Jupyter Notebook / JupyterLab
 
-- Python 3.10+
-- A [Google AI Studio](https://aistudio.google.com/) API key (free)
-
-### 1. Clone the repo
-
+### Installation
+Clone the repository and install the required dependencies:
 ```bash
-git clone https://github.com/Hasan279/Vector-Database-for-RAG.git
-cd "Vector-Database-for-RAG/Interactive Food Search and RAG Chatbot System"
+pip install numpy scipy torch chromadb sentence-transformers
 ```
 
-### 2. Install dependencies
-
+### Running the Notebooks
+Start the Jupyter Notebook server:
 ```bash
-pip install streamlit chromadb google-generativeai python-dotenv
+jupyter notebook
 ```
+Navigate to the `Course_content/` folder and open any notebook to begin learning.
 
-### 3. Configure your API key
+### Quick ChromaDB Example
+Here is a quick snippet demonstrating how to initialize ChromaDB, configure it with `all-MiniLM-L6-v2` embeddings, and run a vector similarity query:
 
-Create a `.env` file in the project folder:
+```python
+import chromadb
+from chromadb.utils import embedding_functions
 
-```env
-GEMINI_API_KEY=your_api_key_here
-```
+# 1. Define embedding function
+ef = embedding_functions.SentenceTransformerEmbeddingFunction(
+    model_name="all-MiniLM-L6-v2"
+)
 
-### 4. Run the app
+# 2. Initialize in-memory Client
+client = chromadb.Client()
 
-```bash
-streamlit run app.py
-```
+# 3. Create a collection configured for Cosine similarity
+collection = client.create_collection(
+    name="quickstart_collection",
+    configuration={
+        "hnsw": {"space": "cosine"},
+        "embedding_function": ef
+    }
+)
 
-Open [http://localhost:8501](http://localhost:8501) in your browser.
+# 4. Add documents with IDs and optional Metadata
+collection.add(
+    documents=[
+        "Retrieval-Augmented Generation optimizes LLM responses.",
+        "Euclidean distance is sensitive to vector magnitudes.",
+        "ChromaDB is an open-source AI-native vector database."
+    ],
+    metadatas=[
+        {"topic": "RAG"},
+        {"topic": "Math"},
+        {"topic": "Database"}
+    ],
+    ids=["doc1", "doc2", "doc3"]
+)
 
----
+# 5. Query the collection
+results = collection.query(
+    query_texts=["How to improve LLM generation?"],
+    n_results=1
+)
 
-## Dataset
-
-`FoodDataset.json` contains **300 unique food items**, each with:
-
-```json
-{
-  "food_name": "Pad Thai",
-  "food_description": "...",
-  "food_calories_per_serving": 450,
-  "food_nutritional_factors": { "protein": "20g", "carbohydrates": "55g", "fat": "15g" },
-  "food_ingredients": ["Rice noodles", "Shrimp", "Peanuts", "Egg", "Bean sprouts"],
-  "food_health_benefits": "High protein, good source of complex carbohydrates",
-  "cooking_method": "Stir-frying",
-  "cuisine_type": "Thai",
-  "food_features": {
-    "taste": "savory, tangy, slightly sweet",
-    "texture": "chewy noodles with crunchy peanuts",
-    "appearance": "golden stir-fried noodles",
-    "preparation": "stir-fried",
-    "serving_type": "hot"
-  }
-}
-```
-
-Cuisines covered include: Italian, Japanese, Indian, Chinese, Mexican, Thai, Korean, Ethiopian, Peruvian, Greek, Turkish, Lebanese, Spanish, Vietnamese, French, American, and more.
-
----
-
-## Example Queries
-
-| Query | What it demonstrates |
-|---|---|
-| "Spicy dinner under 400 calories" | Calorie-aware retrieval |
-| "Healthy Italian pasta" | Cuisine-specific filtering |
-| "High-protein breakfast" | Nutritional goal matching |
-| "Something warm and comforting for a cold night" | Emotion/context-based search |
-| "Compare sushi vs tacos" | Comparison mode |
-
----
-
-## Tech Stack
-
-| Layer | Technology |
-|---|---|
-| UI | Streamlit (Gemini-inspired dark theme) |
-| Vector DB | ChromaDB (local, persistent) |
-| LLM | Google Gemini 2.5 Flash |
-| Embeddings | ChromaDB default (sentence-transformers) |
-| Dataset | Custom curated JSON (300+ entries) |
-| Language | Python 3.10+ |
-
----
-
-## Project Structure
-
-```
-Vector-Database-for-RAG/
-├── Interactive Food Search and RAG Chatbot System/
-│   ├── app.py                    # Main Streamlit app
-│   ├── enhanced_rag_chatbot.py   # RAG pipeline core
-│   ├── shared_functions.py       # ChromaDB utilities
-│   ├── advanced_search.py        # Advanced filtering
-│   ├── interactive_search.py     # CLI search module
-│   ├── system_comparison.py      # RAG vs keyword benchmark
-│   └── FoodDataset.json          # 300+ food items dataset
-├── Course_content/               # Coursera course notebooks
-├── .gitignore
-└── README.md
+print("Best Match ID:", results["ids"][0][0])
+print("Best Match Text:", results["documents"][0][0])
+print("Cosine Distance:", results["distances"][0][0])
 ```
 
 ---
 
-## Contributing
-
-Pull requests are welcome. For major changes, open an issue first to discuss what you'd like to change.
-
----
-
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
+## 👤 Author
+* **Wojciech "Victor" Fulmyk** (Course Instructor)
