@@ -122,6 +122,3 @@ print("Cosine Distance:", results["distances"][0][0])
 ```
 
 ---
-
-## 👤 Author
-* **Wojciech "Victor" Fulmyk** (Course Instructor)
